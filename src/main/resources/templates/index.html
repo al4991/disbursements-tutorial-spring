@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:white-space="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Disbursements demo application</title>
+    <link rel="stylesheet" href="../static/css/bootstrap.css" th:href="@{/css/bootstrap.css}"/>
+    <link rel="stylesheet" href="../static/css/application.css" th:href="@{/css/application.css}">
+    <link rel="stylesheet" href="../static/css/form.css" th:href="@{/css/form.css}">
+
+    <script type="application/javascript" th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/jquery-ui.css}">
+    <script type="application/javascript" th:src="@{/js/jquery-ui.js}"></script>
+    <script type="text/javascript" src="../static/js/application.js" th:src="@{/js/application.js}"></script>
+</head>
+<body class="container">
+<div th:if="${error} != null" class="alert alert-warning" id="error-alert" role="alert">
+    <p th:text="${error}">Error message.</p>
+</div>
+<div th:if="${success} != null" class="alert alert-success" id="success-alert" role="alert">
+    <p th:text="${success}">Success message!</p>
+    <button class="btn button show" id="show-request">View request</button>
+    <button class="btn button show" id="show-response">View response</button>
+    <div class="json">
+        <button class="close" id="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button><br>
+        <div id="request">
+            <pre th:text="${request}">Request</pre>
+        </div>
+        <div id="response">
+            <pre th:text="${response}">Response</pre>
+        </div>
+    </div>
+</div>
+<form id="disbursement-form" th:action="@{/submitForm}" th:object="${disbursement}" method="post">
+    <div class="info-section-header" id="recipient-info-section-header">
+        <h2>Recipient Information</h2>
+    </div>
+    <div class="info-section">
+        <div class="form-group form-row">
+            <div class="col">
+                <label for="firstName">First name *</label>
+                <input type="text" th:field="*{firstName}" class="form-control form-input" id="firstName">
+            </div>
+            <div class="col">
+                <label for="lastName">Last name *</label>
+                <input type="text" th:field="*{lastName}" class="form-control form-input" id="lastName">
+            </div>
+        </div>
+        <div class="form-group form-row">
+            <div class="col-md-6">
+                <label for="line1">Address *</label>
+                <input type="text" th:field="*{line1}" class="form-control form-input" id="line1">
+            </div>
+            <div class="col-md-3">
+                <label for="city">City *</label>
+                <input type="text" th:field="*{city}" class="form-control form-input" id="city">
+            </div>
+            <div class="col-md-3">
+                <label for="postalCode">Postal code *</label>
+                <input type="text" th:field="*{postalCode}" class="form-control form-input" id="postalCode">
+            </div>
+        </div>
+    </div>
+    <div class="info-section-header">
+        <h2>Payment Information</h2>
+    </div>
+    <div class="info-section">
+        <div class="form-group form-row">
+            <div class="col">
+                <label for="amount">Amount *</label>
+                <input type="text" th:field="*{amount}" class="form-control form-input" id="amount" required>
+            </div>
+            <div class="col">
+                <label for="currency">Currency *</label>
+                <input type="text" th:field="*{currency}" class="form-control form-input" id="currency" required>
+                <small class="form-text text-muted">Represented as the three digit currency code (e.g. 'USD').</small>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-row">
+                <div class="col-md-3">
+                    <label for="scheme">Account URI scheme *</label>
+                    <select th:field="*{uriScheme}" class="form-control form-input" id="scheme" required>
+                        <option th:each="scheme : ${uriSchemes}"
+                                th:value="${scheme}"
+                                th:text="${scheme}">Select..</option>
+                    </select>
+                </div>
+                <div class="col-md-9">
+                    <label for="identifier">Identifier *</label>
+                    <input type="text" th:field="*{uriIdentifier}" class="form-control form-input" id="identifier" required>
+                </div>
+            </div>
+        </div>
+        <div class="form-group form-row" id="card-details">
+            <div class="col-md-4">
+                <label for="expiry-year">Expiration year *</label>
+                <input type="text" th:field="*{uriExpYear}" class="form-control form-input" id="expiry-year" required>
+            </div>
+            <div class="col-md-4">
+                <label for="expiry-month">Expiration month *</label>
+                <input type="text" th:field="*{uriExpMonth}" class="form-control form-input" id="expiry-month" required>
+                <small class="form-text text-muted">Represented in two digits (e.g. '05' for May).</small>
+            </div>
+            <div class="col-md-2">
+                <label for="cvc">CVC</label>
+                <input type="text" th:field="*{uriCvc}" class="form-control form-input" id="cvc">
+            </div>
+        </div>
+        <div class="form-group form-row" id="non-card-details">
+            <label for="name-on-account">Recipient's name on account *</label>
+            <input type="text" th:field="*{nameOnAccount}" class="form-control form-input" id="name-on-account">
+            <small class="form-text text-muted">Their name exactly as printed on their account.</small>
+        </div>
+    </div>
+    <div class="submit">
+        <button type="submit" class="btn button">Submit</button>
+    </div>
+</form>
+</body>
+</html>

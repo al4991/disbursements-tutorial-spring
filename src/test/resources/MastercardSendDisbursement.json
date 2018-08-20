@@ -1,0 +1,11 @@
+{
+  "payment_type": "BDB",
+  "amount": "44",
+  "currency": "USD",
+  "recipient_account_uri": "pan:5509670000000187;exp=2099-08;cvc=123",
+  "first_name": "Jane",
+  "last_name": "Smith",
+  "line1": "1 Main St",
+  "city": "OFallon",
+  "postal_code": "63368"
+}

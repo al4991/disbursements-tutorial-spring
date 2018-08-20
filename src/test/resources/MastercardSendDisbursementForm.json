@@ -1,0 +1,15 @@
+{
+  "payment_type": "BDB",
+  "amount": "44",
+  "currency": "USD",
+  "uri_scheme": "pan",
+  "uri_identifier": "5509670000000187",
+  "uri_exp_year": "2099",
+  "uri_exp_month": "08",
+  "uri_cvc": "123",
+  "first_name": "Jane",
+  "last_name": "Smith",
+  "line1": "1 Main St",
+  "city": "OFallon",
+  "postal_code": "63368"
+}
