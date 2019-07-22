@@ -32,6 +32,10 @@ $(document).ready(function() {
         $("#response").show();
     })
 
+    $("#reload").click(function(){
+        location.reload(true);
+    })
+
     $("#close").click(function() {
         $(".json").slideUp("1000");
     })

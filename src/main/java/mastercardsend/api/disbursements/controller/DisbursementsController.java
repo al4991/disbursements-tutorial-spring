@@ -31,6 +31,20 @@ public class DisbursementsController {
     @GetMapping("/")
     public String index(Model model) {
         MastercardSendDisbursement disbursement = new MastercardSendDisbursement();
+
+        // Pre-populating values for form
+        disbursement.setFirstName("Jane");
+        disbursement.setLastName("Doe");
+        disbursement.setLine1("1 Main St");
+        disbursement.setCity("OFallon");
+        disbursement.setPostalCode("11011");
+        disbursement.setAmount("100");
+        disbursement.setCurrency("USD");
+        disbursement.setUriIdentifier("5509670000000187");
+        disbursement.setUriExpYear("2099");
+        disbursement.setUriExpMonth("02");
+        disbursement.setUriCvc("123");
+
         model.addAttribute("disbursement", disbursement);
         model.addAttribute("uriSchemes", disbursement.getAllURISchemes());
         return "index";
@@ -50,15 +64,15 @@ public class DisbursementsController {
         disbursement.setRecipientAccountUri();
 
         Disbursement response = service.create(disbursement);
-
         try {
+            redirectAttrs.addFlashAttribute("request", service.getRequest());
+            redirectAttrs.addFlashAttribute("response", new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(response));
             if (response != null) {
-                redirectAttrs.addFlashAttribute("request", service.getRequest());
-                redirectAttrs.addFlashAttribute("response", new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(response));
                 redirectAttrs.addFlashAttribute("success", "Disbursement for " + disbursement.getFirstName() + " " + disbursement.getLastName() + " was successfully created!");
                 return "redirect:/";
             } else {
-                redirectAttrs.addFlashAttribute("error", "Failed to create disbursement. " + service.getError());
+                redirectAttrs.addFlashAttribute("error", "Failed to create disbursement for " + disbursement.getFirstName() + " " + disbursement.getLastName());
+                redirectAttrs.addFlashAttribute("response",  service.getError());
                 return "redirect:/";
             }
         } catch (JsonProcessingException e) {
@@ -75,7 +89,7 @@ public class DisbursementsController {
     @PostMapping(value = "/createDisbursement")
     public ResponseEntity createDisbursement(@RequestBody MastercardSendDisbursement disbursementRequest) {
         if (service.isEligible(disbursementRequest)) {
-            Disbursement response = service.create(disbursementRequest);
+            Disbursement response = MastercardService.create(disbursementRequest);
             if (response != null) {
                 return ResponseEntity.ok(response);
             }

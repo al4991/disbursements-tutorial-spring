@@ -16,6 +16,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.io.IOException;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -53,7 +55,7 @@ public class DisbursementAccountInfoAPITest {
     public void testCreateDisbursementIneligibleRecipientAccount() throws Exception {
         MastercardSendDisbursement disbursement = getMastercardSendDisbursement(DISBURSEMENT_JSON_FILE);
         disbursement.setPartnerId(partnerId);
-        disbursement.setRecipientAccountUri("pan:5432123456789012;exp=2099-02;cvc=123");
+        disbursement.setRecipientAccountUri("pan:0543212345678901;exp=2099-02;cvc=123");
         mvc.perform(post("/createDisbursement")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(mapper.writeValueAsString(disbursement)))

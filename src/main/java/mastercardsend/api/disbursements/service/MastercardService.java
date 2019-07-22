@@ -52,8 +52,9 @@ public class MastercardService {
         InputStream is = new FileInputStream(env.getProperty("p12PrivateKey"));
 
         ApiConfig.setAuthentication(new OAuthAuthentication(consumerKey, is, keyAlias, keyPassword));
+        ApiConfig.setEnvironment(com.mastercard.api.core.model.Environment.SANDBOX_STATIC);
         ApiConfig.setDebug(true);
-        ApiConfig.setSandbox(true);
+
     }
 
     /**
@@ -68,6 +69,9 @@ public class MastercardService {
             map.set("partnerId", disbursement.getPartnerId());
             map.set("account_info.account_uri", disbursement.getRecipientAccountUri());
             map.set("account_info.payment_type", disbursement.getPaymentType());
+            map.set("account_info.amount", disbursement.getAmount());
+            map.set("account_info.currency", disbursement.getCurrency());
+
             AccountInfo accountInfo = new AccountInfo(map).read();
             boolean eligible = Boolean.parseBoolean((String) accountInfo.get("account_info.receiving_eligibility.eligible"));
             if (!eligible) {
@@ -75,7 +79,10 @@ public class MastercardService {
             }
             return eligible;
         } catch (ApiException e) {
-            error = e.getMessage();
+            error = "HttpStatus: " + e.getHttpStatus() +
+                    "\nMessage: " + e.getMessage() +
+                    "\nReason Code: " + e.getReasonCode() +
+                    "\nSource: " + e.getSource() ;
             printErrors(e);
             return false;
         }
@@ -120,7 +127,10 @@ public class MastercardService {
             System.err.println("Could not convert request to JSON.");
             return null;
         }   catch (ApiException e) {
-            error = e.getMessage();
+            error = "HttpStatus: " + e.getHttpStatus() +
+                    "\nMessage: " + e.getMessage() +
+                    "\nReason Code : " + e.getReasonCode() +
+                    "\nSource: " + e.getSource() ;
             printErrors(e);
             return null;
         }

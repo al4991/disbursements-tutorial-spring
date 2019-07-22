@@ -43,7 +43,7 @@
         <dependency>
             <groupId>com.mastercard.api</groupId>
             <artifactId>disbursements</artifactId>
-            <version>1.0.3</version>
+            <version>1.0.7</version>
         </dependency>
 
         <dependency>
