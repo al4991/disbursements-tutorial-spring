@@ -34,15 +34,15 @@ public class DisbursementsController {
 
         // Pre-populating values for form
         disbursement.setFirstName("Jane");
-        disbursement.setLastName("Doe");
+        disbursement.setLastName("Smith");
         disbursement.setLine1("1 Main St");
         disbursement.setCity("OFallon");
-        disbursement.setPostalCode("11011");
-        disbursement.setAmount("100");
+        disbursement.setPostalCode("63368");
+        disbursement.setAmount("44");
         disbursement.setCurrency("USD");
         disbursement.setUriIdentifier("5509670000000187");
         disbursement.setUriExpYear("2099");
-        disbursement.setUriExpMonth("02");
+        disbursement.setUriExpMonth("08");
         disbursement.setUriCvc("123");
 
         model.addAttribute("disbursement", disbursement);
