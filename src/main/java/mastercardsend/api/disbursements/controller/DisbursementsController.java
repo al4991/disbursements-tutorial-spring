@@ -66,9 +66,9 @@ public class DisbursementsController {
         Disbursement response = service.create(disbursement);
         try {
             redirectAttrs.addFlashAttribute("request", service.getRequest());
-            redirectAttrs.addFlashAttribute("response", new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(response));
             if (response != null) {
                 redirectAttrs.addFlashAttribute("success", "Disbursement for " + disbursement.getFirstName() + " " + disbursement.getLastName() + " was successfully created!");
+                redirectAttrs.addFlashAttribute("response", new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(response));
                 return "redirect:/";
             } else {
                 redirectAttrs.addFlashAttribute("error", "Failed to create disbursement for " + disbursement.getFirstName() + " " + disbursement.getLastName());
